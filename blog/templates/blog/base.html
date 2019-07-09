@@ -4,7 +4,7 @@
         <title>The Winged Messenger</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="//fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet"  type="text/css">
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
@@ -12,10 +12,8 @@
       {% if user.is_authenticated %}
           <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
           <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-      {% else %}
-          <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-      {% endif %}
-      <h1><a href="/">The Winged Messenger</a></h1>
+            {% endif %}
+      <h1><img src ="../static/img/hermes-left.png"/><a href="/">The Winged Messenger</a><img src ="../static/img/hermes.png"/></h1>
   </div>
     <div class="content container">
         <div class="row">
@@ -24,6 +22,9 @@
             {% endblock %}
             </div>
         </div>
+    </div>
+    <div class="page-footer">
+
     </div>
 </body>
 </html>
