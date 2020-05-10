@@ -1,31 +1,35 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <div class = "pagination">
-      <span class="step-links">
-        {% if page_obj.has_previous %}
-          <a href="?page=1">&laquo; first</a>
-          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-      </span>
+<div class="post">
+  {% for post in posts %}
+    <div class="date">
+        {{ post.published_date }}
     </div>
-        <div class="post">
-          {% for post in posts %}
-            <div class="date">
-                {{ post.published_date }}
-            </div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|safe }}</p>
-            <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
-        </div>
-    {% endfor %}
+  <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+  <p>{{ post.text|safe }}</p>
+  <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+</div>
+{% endfor %}
+{% if posts.has_other_pages %}
+  <div class = "pagination">
+    <span class="step-links">
+      {% if posts.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ posts.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+          Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+      </span>
+
+      {% if posts.has_next %}
+          <a href="?page={{ posts.next_page_number }}">next</a>
+          <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    {% endif %}
+    </span>
+  </div>
+
 {% endblock content %}
