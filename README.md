@@ -6,11 +6,20 @@ A blog started at a DjangoGirls' event using Python and Django, deployed using p
 
 You can see the blog online at https://naeglinghaff.pythonanywhere.com/
 
+## Running code locally
+
+Clone this repo and then in the root directory:
+
+```
+python manage.py migrate
+python manage.py runserver
+```
+
 ## Additions and technologies used:
 
-* CSS
-* Security protocols with Dotenv
-* Testing with unittest
-* Wigit for custom input to blog post form
+* bootstrap and custom CSS
+* security protocols with Dotenv
+* testing with unittest
+* ckeditor for custom input to blog post form
 * paginate for multiple page list views
-* venv for package management
+* virtualenv for package management
