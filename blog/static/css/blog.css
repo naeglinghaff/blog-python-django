@@ -34,6 +34,7 @@ h1, h2 {
 
 .date {
     color: #828282;
+    padding-top: 30px;
 }
 
 .save {
@@ -61,7 +62,7 @@ h1, h2 {
 
 .pagination {
   color: #667943;
-  padding: 10px;
+  display: block;
 }
 
 .post a, .post h2 {
