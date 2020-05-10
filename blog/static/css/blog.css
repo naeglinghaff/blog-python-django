@@ -1,9 +1,11 @@
 
 .page-header {
-    background-color: #667943;
+    background-color: #429085;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
     text-align: center;
+    border-bottom-style: groove;
+    border-bottom-color: #37a593;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
@@ -34,6 +36,7 @@ h1, h2 {
 
 .date {
     color: #828282;
+    padding-top: 30px;
 }
 
 .save {
@@ -56,11 +59,16 @@ h1, h2 {
 }
 
 .post h2 a, .post h2 a:visited, {
-    color: #667943;
+    color: #429085;
+}
+
+.pagination {
+  color: #429085;
+  display: block;
 }
 
 .post a, .post h2 {
-  color: #667943;
+  color: #429085;
 }
 
 .comment {
