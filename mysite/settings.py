@@ -29,11 +29,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-TEST_RUNNER = 'django-nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-packages=mysite,blog'
+    '--cover-package=blog'
 ]
 
 LOGIN_REDIRECT_URL = '/'
