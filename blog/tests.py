@@ -6,11 +6,9 @@ from .models import Post
 class TestBlogViews(TestCase):
     def setUp(self):
         client = Client()
-        author = User(id = 1, is_superuser = 1, username = "naeglinghaff")
-        author.save()
+        author = User(id = 1, is_superuser = 1, username = "naeglinghaff").save()
         AUTH_USER_MODEL = author
-        post = Post(title = 'My Post', text = 'This is some text', author_id = 1)
-        post.save()
+        post = Post(title = 'My Post', text = 'This is some text', author_id = 1).save()
 
     def test_homepage_can_render_posts(self):
         response = self.client.get("//")
