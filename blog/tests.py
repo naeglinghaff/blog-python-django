@@ -9,7 +9,7 @@ class TestBlogViews(TestCase):
     def setUp(self):
         client = Client()
         self.factory = RequestFactory()
-        self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff", password = "fakepassword").save()
+        self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff").save()
         post = Post(title = 'My Post', text = 'This is some text', author_id = 1).save()
 
     def test_homepage_can_render_posts(self):
@@ -26,8 +26,10 @@ class TestBlogViews(TestCase):
 
     def test_blog_edit_view_can_render(self):
         request = self.factory.get("/post/1/edit/")
-
-        self.user = authenticate(username = "naeglinghaff", password = "fakepassword")
+        username = self.user.username
+        password = self.user.password
+        self.user = authenticate(username="naeglinghaff", password="password")
+        print(self.user)
 
         request.user = self.user
 
