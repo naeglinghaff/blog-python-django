@@ -3,7 +3,7 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
-from .views import post_edit, post_new, post_remove
+from .views import post_edit, post_new, post_remove, post_publish
 
 class TestBlogViews(TestCase):
     def setUp(self):
@@ -50,5 +50,14 @@ class TestBlogViews(TestCase):
         request.user = self.user
 
         response = post_remove(request, pk = 1)
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_blog_post_publish_view_returns_302(self):
+        request = self.factory.get("/post/1/publish/")
+        self.client.login(username="naeglinghaff", password="12345")
+        request.user = self.user
+
+        response = post_publish(request, pk = 1)
 
         self.assertEqual(response.status_code, 302)
