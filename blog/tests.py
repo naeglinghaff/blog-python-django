@@ -3,7 +3,7 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
-from .views import post_edit, post_new, post_remove, post_publish
+from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post
 
 class TestBlogViews(TestCase):
     def setUp(self):
@@ -61,3 +61,12 @@ class TestBlogViews(TestCase):
         response = post_publish(request, pk = 1)
 
         self.assertEqual(response.status_code, 302)
+
+    def test_blog_add_comment_to_post_returns_200(self):
+        request = self.factory.get("/post/1/comment/")
+        self.client.login(username="naeglinghaff", password="12345")
+        request.user = self.user
+
+        response = add_comment_to_post(request, pk = 1)
+
+        self.assertEqual(response.status_code, 200)
