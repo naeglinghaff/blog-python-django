@@ -3,7 +3,7 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
-from .views import post_edit
+from .views import post_edit, post_new
 
 class TestBlogViews(TestCase):
     def setUp(self):
@@ -30,9 +30,16 @@ class TestBlogViews(TestCase):
         request = self.factory.get("/post/1/edit/")
         self.client.login(username="naeglinghaff", password="12345")
         request.user = self.user
-        print(request)
 
-        response = post_edit(request)
+        response = post_edit(request, pk = 1)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "blog/post_edit.html")
+
+    def test_blog_edit_view_can_render(self):
+        request = self.factory.get("/post/new/")
+        self.client.login(username="naeglinghaff", password="12345")
+        request.user = self.user
+
+        response = post_new(request)
+
+        self.assertEqual(response.status_code, 200)
