@@ -76,3 +76,11 @@ class TestBlogViews(TestCase):
         response = comment_approve(request, pk = 1)
 
         self.assertEqual(response.status_code, 302)
+
+    def test_blog_comment_remove_returns_302(self):
+        request = self.factory.get("/comment/1/remove/")
+        request.user = self.user
+
+        response = comment_remove(request, pk = 1)
+
+        self.assertEqual(response.status_code, 302)
