@@ -3,7 +3,8 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
-from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post
+from .models import Comment
+from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove
 
 class TestBlogViews(TestCase):
     def setUp(self):
@@ -12,6 +13,8 @@ class TestBlogViews(TestCase):
         self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff")
         self.user.set_password("12345")
         self.user.save()
+        self.client.login(username="naeglinghaff", password="12345")
+        self.comment = Comment(id = 1, author = 2, post_id = 1)
         self.post = Post(title = 'My Post', text = 'This is some text', author_id = 1).save()
 
     def test_homepage_post_list_can_render_posts_(self):
@@ -28,16 +31,14 @@ class TestBlogViews(TestCase):
 
     def test_blog_post_edit_view_returns_200(self):
         request = self.factory.get("/post/1/edit/")
-        self.client.login(username="naeglinghaff", password="12345")
-        request.user = self.user
 
+        request.user = self.user
         response = post_edit(request, pk = 1)
 
         self.assertEqual(response.status_code, 200)
 
     def test_blog_post_new_view_returns_200(self):
         request = self.factory.get("/post/new/")
-        self.client.login(username="naeglinghaff", password="12345")
         request.user = self.user
 
         response = post_new(request)
@@ -46,7 +47,6 @@ class TestBlogViews(TestCase):
 
     def test_blog_post_remove_view_returns_302(self):
         request = self.factory.get("/post/1/remove/")
-        self.client.login(username="naeglinghaff", password="12345")
         request.user = self.user
 
         response = post_remove(request, pk = 1)
@@ -55,7 +55,6 @@ class TestBlogViews(TestCase):
 
     def test_blog_post_publish_view_returns_302(self):
         request = self.factory.get("/post/1/publish/")
-        self.client.login(username="naeglinghaff", password="12345")
         request.user = self.user
 
         response = post_publish(request, pk = 1)
@@ -64,7 +63,6 @@ class TestBlogViews(TestCase):
 
     def test_blog_add_comment_to_post_returns_200(self):
         request = self.factory.get("/post/1/comment/")
-        self.client.login(username="naeglinghaff", password="12345")
         request.user = self.user
 
         response = add_comment_to_post(request, pk = 1)
