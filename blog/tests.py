@@ -14,7 +14,7 @@ class TestBlogViews(TestCase):
         self.user.set_password("12345")
         self.user.save()
         self.client.login(username="naeglinghaff", password="12345")
-        self.comment = Comment(id = 1, author = 2, post_id = 1)
+        self.comment = Comment(id = 1, author = 1, post_id = 1).save()
         self.post = Post(title = 'My Post', text = 'This is some text', author_id = 1).save()
 
     def test_homepage_post_list_can_render_posts_(self):
@@ -68,3 +68,11 @@ class TestBlogViews(TestCase):
         response = add_comment_to_post(request, pk = 1)
 
         self.assertEqual(response.status_code, 200)
+
+    def test_blog_approve_comment_returns_302(self):
+        request = self.factory.get("/comment/1/approve/")
+        request.user = self.user
+
+        response = comment_approve(request, pk = 1)
+
+        self.assertEqual(response.status_code, 302)
