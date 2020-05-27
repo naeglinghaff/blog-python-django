@@ -84,3 +84,10 @@ class TestBlogViews(TestCase):
         response = comment_remove(request, pk = 1)
 
         self.assertEqual(response.status_code, 302)
+
+class TestBlogPostModel(TestCase):
+
+    def test_post_model_returns_string_title(self):
+        post = Post(title="hello")
+        self.assertEqual(str(post), post.title)
+        print(post)
