@@ -101,6 +101,15 @@ class TestBlogPostModel(TestCase):
         post = Post(title="hello", text="This is some text")
         self.assertEqual(str(post), post.title)
 
+    def test_post_model_retrieves_approved_comments(self):
+        post = Post(title="hello", text="This is some text", author_id = 1)
+        post.publish()
+        comment = Comment(id = 1, author = 1, post_id = 1, text="this is a comment", approved_comment = True)
+        comment.save()
+        result = post.approved_comments()
+        print(result)
+        self.assertEqual(result[0], comment)
+
     def test_post_model_publish_save_to_db_save_timestamp(self):
         with patch.object(timezone, 'now', return_value=self.timezone.localize(datetime.datetime(2020, 1, 1, 11, 00))) as mock_now:
             post = Post(title="hello", text="This is some text", author_id = 1)
