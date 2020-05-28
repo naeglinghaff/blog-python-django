@@ -136,3 +136,17 @@ class TestBlogPostModel(TestCase):
         post.save()
         post.delete()
         self.assertEqual(Post.objects.count(), 0)
+
+class TestBlogCommentModel(TestCase):
+    def setUp(self):
+        self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff")
+        self.user.set_password("12345")
+        self.user.save()
+        self.post = Post(title="hello", text="This is some text", author_id = 1)
+        self.post.save()
+        self.comment = Comment(id = 1, author = 1, post_id = 1, text="this is a comment")
+        self.comment.save()
+
+    def test_comment_approve_updates_approved_property(self):
+        self.comment.approve()
+        self.assertEqual(self.comment.approved_comment, True)
