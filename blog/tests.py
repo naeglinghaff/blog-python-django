@@ -107,3 +107,12 @@ class TestBlogPostModel(TestCase):
             post.publish()
             self.assertEqual(Post.objects.count(), 1)
             self.assertEqual(post.published_date, self.timezone.localize(datetime.datetime(2020, 1, 1, 11, 0)))
+
+    def test_creation_model_post(self):
+        post = Post(title="hello", text="This is some text", author_id = 1)
+        post.save()
+        allposts = Post.objects.all()
+        self.assertEqual(Post.objects.count(), 1)
+        self.assertEqual(allposts[0].text, "This is some text")
+        self.assertIsInstance(allposts[0].created_date, datetime.date)
+        self.assertIsInstance(allposts[0].author, User)
