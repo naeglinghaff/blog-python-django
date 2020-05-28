@@ -86,8 +86,16 @@ class TestBlogViews(TestCase):
         self.assertEqual(response.status_code, 302)
 
 class TestBlogPostModel(TestCase):
+    def setUp(self):
+        self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff")
+        self.user.set_password("12345")
+        self.user.save()
 
     def test_post_model_returns_string_title(self):
-        post = Post(title="hello")
+        post = Post(title="hello", text="This is some text")
         self.assertEqual(str(post), post.title)
-        print(post)
+
+    def test_post_model_publish(self):
+        post = Post(title="hello", text="This is some text", author_id = 1)
+        post.publish()
+        self.assertEqual(Post.objects.count(), 1)
