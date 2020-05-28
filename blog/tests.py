@@ -147,6 +147,9 @@ class TestBlogCommentModel(TestCase):
         self.comment = Comment(id = 1, author = 1, post_id = 1, text="this is a comment")
         self.comment.save()
 
+    def test_comment_model_returns_string_title(self):
+        self.assertEqual(str(self.comment), self.comment.text)
+
     def test_comment_approve_updates_approved_property(self):
         self.comment.approve()
         self.assertEqual(self.comment.approved_comment, True)
