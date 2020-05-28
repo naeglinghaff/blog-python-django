@@ -1,10 +1,15 @@
 from django.test import TestCase, RequestFactory
+from mock import patch
+import datetime
+import pytz
 from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
 from .models import Comment
 from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove
+from django.utils import timezone
+
 
 class TestBlogViews(TestCase):
     def setUp(self):
@@ -90,12 +95,15 @@ class TestBlogPostModel(TestCase):
         self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff")
         self.user.set_password("12345")
         self.user.save()
+        self.timezone = pytz.timezone("GMT")
 
     def test_post_model_returns_string_title(self):
         post = Post(title="hello", text="This is some text")
         self.assertEqual(str(post), post.title)
 
-    def test_post_model_publish(self):
-        post = Post(title="hello", text="This is some text", author_id = 1)
-        post.publish()
-        self.assertEqual(Post.objects.count(), 1)
+    def test_post_model_publish_save_to_db_save_timestamp(self):
+        with patch.object(timezone, 'now', return_value=self.timezone.localize(datetime.datetime(2020, 1, 1, 11, 00))) as mock_now:
+            post = Post(title="hello", text="This is some text", author_id = 1)
+            post.publish()
+            self.assertEqual(Post.objects.count(), 1)
+            self.assertEqual(post.published_date, self.timezone.localize(datetime.datetime(2020, 1, 1, 11, 0)))
