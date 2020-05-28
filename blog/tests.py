@@ -10,7 +10,6 @@ from .models import Comment
 from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove
 from django.utils import timezone
 
-
 class TestBlogViews(TestCase):
     def setUp(self):
         client = Client()
@@ -131,3 +130,9 @@ class TestBlogPostModel(TestCase):
         self.assertEqual(allposts[0].text, "This is some text")
         self.assertIsInstance(allposts[0].created_date, datetime.date)
         self.assertIsInstance(allposts[0].author, User)
+
+    def test_delete_method_deletes_post(self):
+        post = Post(title="hello", text="This is some text", author_id = 1)
+        post.save()
+        post.delete()
+        self.assertEqual(Post.objects.count(), 0)
