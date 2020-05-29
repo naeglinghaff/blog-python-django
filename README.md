@@ -15,6 +15,18 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+To run the tests
+
+```
+python manage.py test blog.tests
+```
+
+To see an accurate representation of coverage, run the coverage report separately (coverage.py loads in the models too soon hence the differing results)
+```
+coverage run --source='.' ./manage.py test blog.tests
+coverage report
+```
+
 ## Additions and technologies used:
 
 * bootstrap and custom CSS
