@@ -33,7 +33,8 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=blog'
+    '--cover-package=blog',
+    '--cover-html'
 ]
 
 LOGIN_REDIRECT_URL = '/'
