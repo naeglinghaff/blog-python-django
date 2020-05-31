@@ -92,13 +92,22 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
-    def test_no_posts_paginator_has_no_pages(self):
+    def test_no_posts_paginator_has_a_page_by_default(self):
         self.post.delete()
         response = self.client.get("//")
         posts = response.context[-1]['posts']
         page = posts.paginator.page(1)
 
         self.assertEqual(page.has_other_pages(), False)
+
+    def test_paginator_raises_empty_page_exception(self):
+        with self.assertRaises(EmptyPage):
+            self.post.delete()
+            response = self.client.get("//")
+            paginator = response.context[-1]['posts'].paginator
+            page = paginator.page
+
+            self.assertEqual(PageNotAnInteger, paginator.page(page))
 
 class TestBlogPostModel(TestCase):
     def setUp(self):
