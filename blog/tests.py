@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
 from .models import Comment
-from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove
+from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove, post_list
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 
 class TestBlogViews(TestCase):
@@ -18,8 +19,10 @@ class TestBlogViews(TestCase):
         self.user.set_password("12345")
         self.user.save()
         self.client.login(username="naeglinghaff", password="12345")
-        self.comment = Comment(id = 1, author = 1, post_id = 1).save()
-        self.post = Post(title = 'My Post', text = 'This is some text', author_id = 1).save()
+        self.comment = Comment(id = 1, author = 1, post_id = 1)
+        self.comment.save()
+        self.post = Post(title = 'My Post', text = 'This is some text', author_id = 1)
+        self.post.save()
 
     def test_homepage_post_list_can_render_posts_(self):
         response = self.client.get("//")
@@ -88,6 +91,14 @@ class TestBlogViews(TestCase):
         response = comment_remove(request, pk = 1)
 
         self.assertEqual(response.status_code, 302)
+
+    def test_no_posts_paginator_has_no_pages(self):
+        self.post.delete()
+        response = self.client.get("//")
+        posts = response.context[-1]['posts']
+        page = posts.paginator.page(1)
+
+        self.assertEqual(page.has_other_pages(), False)
 
 class TestBlogPostModel(TestCase):
     def setUp(self):
