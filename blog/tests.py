@@ -103,7 +103,9 @@ class TestBlogViews(TestCase):
     def test_paginator_raises_empty_page_exception(self):
         with self.assertRaises(PageNotAnInteger):
             self.post.delete()
-            response = self.client.get("//")
+
+            request = self.factory.get("//")
+            post_list(request)
 
 
 class TestBlogPostModel(TestCase):
