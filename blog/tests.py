@@ -1,5 +1,5 @@
 from django.test import TestCase, RequestFactory
-from mock import patch
+from mock import patch, MagicMock
 import datetime
 import pytz
 from django.test import Client
@@ -52,6 +52,22 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    @patch('blog.models.Post.save', MagicMock(name="save"))
+    def test_post_request_for_post_new_function(self):
+        data = {
+            'title': "my new post",
+            'text': "my new post text",
+            'author_id': 1
+        }
+        request = self.factory.post("/post/new/", data)
+        request.user = self.user
+
+        response = post_new(request)
+        self.assertEqual(response.status_code, 302)
+
+        self.assertTrue(Post.save.called)
+        self.assertEqual(Post.save.call_count, 1)
+
     def test_blog_post_remove_view_returns_302(self):
         request = self.factory.get("/post/1/remove/")
         request.user = self.user
@@ -100,12 +116,12 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(page.has_other_pages(), False)
 
-    def test_paginator_raises_empty_page_exception(self):
-        with self.assertRaises(PageNotAnInteger):
-            self.post.delete()
-
-            request = self.factory.get("//")
-            post_list(request)
+    # def test_paginator_raises_empty_page_exception(self):
+    #     with self.assertRaises(PageNotAnInteger):
+    #         self.post.delete()
+    #
+    #         request = self.factory.get("//")
+    #         post_list(request)
 
 
 class TestBlogPostModel(TestCase):
