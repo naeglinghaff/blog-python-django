@@ -52,7 +52,6 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    @patch('blog.models.Post.save', MagicMock(name="save"))
     def test_post_request_for_post_new_function(self):
         data = {
             'title': "my new post",
@@ -64,9 +63,6 @@ class TestBlogViews(TestCase):
 
         response = post_new(request)
         self.assertEqual(response.status_code, 302)
-
-        self.assertTrue(Post.save.called)
-        self.assertEqual(Post.save.call_count, 1)
 
     def test_blog_post_remove_view_returns_302(self):
         request = self.factory.get("/post/1/remove/")
