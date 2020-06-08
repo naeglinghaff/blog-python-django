@@ -44,6 +44,18 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_post_request_for_post_edit_function(self):
+        data = {
+            'title': "my edited post",
+            'text': "my edited post text",
+            'author_id': 1
+        }
+        request = self.factory.post("/post/1/edit/", data)
+        request.user = self.user
+
+        response = post_edit(request, pk = 1)
+        self.assertEqual(response.status_code, 302)
+
     def test_blog_post_new_view_returns_200(self):
         request = self.factory.get("/post/new/")
         request.user = self.user
