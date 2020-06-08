@@ -100,6 +100,18 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_post_request_for_comment_new_function(self):
+        data = {
+            'text': "my comment text",
+            'author_id': 1,
+            'post_id': 1
+        }
+        request = self.factory.post("/post/1/comment/", data)
+        request.user = self.user
+
+        response = add_comment_to_post(request, pk = 1)
+        self.assertEqual(response.status_code, 200)
+
     def test_blog_approve_comment_returns_302(self):
         request = self.factory.get("/comment/1/approve/")
         request.user = self.user
