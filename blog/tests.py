@@ -144,14 +144,6 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(page.has_other_pages(), False)
 
-    # def test_paginator_raises_empty_page_exception(self):
-    #     with self.assertRaises(PageNotAnInteger):
-    #         self.post.delete()
-    #
-    #         request = self.factory.get("//")
-    #         post_list(request)
-
-
 class TestBlogPostModel(TestCase):
     def setUp(self):
         self.user = User(id = 1, is_superuser = 1, username = "naeglinghaff")
