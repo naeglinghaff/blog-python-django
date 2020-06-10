@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Post
 from .models import Comment
-from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove, post_list
+from .views import post_edit, post_new, post_remove, post_publish, add_comment_to_post, comment_approve, comment_remove, post_list, post_draft_list
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 
@@ -127,6 +127,14 @@ class TestBlogViews(TestCase):
         response = comment_remove(request, pk = 1)
 
         self.assertEqual(response.status_code, 302)
+
+    def test_blog_draft_post_list_returns_200(self):
+        request = self.factory.get("/drafts/")
+        request.user = self.user
+
+        response = post_draft_list(request)
+
+        self.assertEqual(response.status_code, 200)
 
     def test_no_posts_paginator_has_a_page_by_default(self):
         self.post.delete()
