@@ -14,7 +14,19 @@ import os
 from dotenv import load_dotenv
 import django_heroku
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 load_dotenv()
+
+sentry_sdk.init(
+    dsn="https://07eee85566414e7c92ba36e87dfa40f0@o408240.ingest.sentry.io/5278759",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,6 +41,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
+
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
