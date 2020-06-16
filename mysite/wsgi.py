@@ -14,6 +14,6 @@ from django.core.wsgi import get_wsgi_application
 project_folder = os.path.expanduser('~/mysite')  # adjust as appropriate
 load_dotenv(os.path.join(project_folder, '.env'))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = '.settings_production'
 
 application = get_wsgi_application()
