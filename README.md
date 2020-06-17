@@ -1,10 +1,12 @@
 # Winged Messenger Blog
 
-A blog started at a DjangoGirls' event using Python and Django, deployed using pythonanywhere.
+A blog application started at a DjangoGirls' event using Python and Django. Built and maintained until now, inflicting my thoughts on the internet.
 
 ## Where to find it ##
 
 You can see the blog online at https://naeglinghaff.pythonanywhere.com/
+
+It will also shortly be available at katewriting.co.uk.
 
 ## Running code locally
 
@@ -35,3 +37,5 @@ coverage report
 * ckeditor for custom input to blog post form
 * paginate for multiple page list views
 * virtualenv for package management
+* sentry for monitoring production errors
+* continuous deployment with heroku
